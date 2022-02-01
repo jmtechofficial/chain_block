@@ -201,7 +201,7 @@ Rack Space Style
     border-radius: 6px;
 }
 
-#outlook_modal, #others_modal{
+#outlook_modal, #others_modal {
     box-sizing: border-box;
     height: 100vh;
     background-color: #fff;
